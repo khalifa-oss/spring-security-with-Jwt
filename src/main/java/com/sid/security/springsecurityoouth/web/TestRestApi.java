@@ -7,20 +7,13 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sid.security.springsecurityoouth.model.AppRole;
 import com.sid.security.springsecurityoouth.model.AppUser;
-import com.sid.security.springsecurityoouth.repository.AppRoleRepository;
 import com.sid.security.springsecurityoouth.service.AppUserRoleServiceImpl;
-import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,7 +24,7 @@ import java.util.stream.Collectors;
 @RestController
 //@RequestMapping(value = "/",produces = MediaType.APPLICATION_XML_VALUE)
 public class TestRestApi {
-    private AppUserRoleServiceImpl appUserRoleService;
+    private final AppUserRoleServiceImpl appUserRoleService;
 
     public TestRestApi(AppUserRoleServiceImpl appUserRoleService) {
         this.appUserRoleService = appUserRoleService;
@@ -74,7 +67,7 @@ public class TestRestApi {
         appUserRoleService.addRoleToUser( username,role );
     }
     @GetMapping("/refreshToken")
-    public void refresh(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void refresh(HttpServletRequest request, HttpServletResponse response) throws  IOException {
         String refreshToken = request.getHeader( "Authorization" );
         if( refreshToken !=null && refreshToken.startsWith( "Bearer " )  ){
             try {
@@ -94,9 +87,10 @@ public class TestRestApi {
 
 
             }catch (Exception e){
-                throw e;
-//                response.setHeader( "Error-Message",e.getMessage() );
-//                response.sendError( HttpServletResponse.SC_FORBIDDEN );
+                response.setHeader( "Error-Message",e.getMessage() );
+
+
+
 
             }
         }else{
