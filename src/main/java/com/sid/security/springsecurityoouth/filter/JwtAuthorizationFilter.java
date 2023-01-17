@@ -23,10 +23,10 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
-    @Value(" ${publicKey}")
-  public  String public_key;
-    @Value(" ${authHeader}")
-    public  String authorization;
+//    @Value(" ${publicKey}")
+  public  String public_key="mySecret123";
+//    @Value(" ${authHeader}")
+    public  String authorization="Authorization";
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if(request.getServletPath().equals( "/refreshToken" )){

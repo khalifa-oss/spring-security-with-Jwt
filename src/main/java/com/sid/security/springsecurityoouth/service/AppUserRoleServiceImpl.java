@@ -73,4 +73,9 @@ public class AppUserRoleServiceImpl implements AppUserRoleService {
     public AppRole getAppRoleById(Long id) {
         return appRoleRepository.findById( id ).get();
     }
+
+    @Override
+    public boolean findUser(String username) {
+        return appUserRepository.existsAppUserByUsername( username );
+    }
 }

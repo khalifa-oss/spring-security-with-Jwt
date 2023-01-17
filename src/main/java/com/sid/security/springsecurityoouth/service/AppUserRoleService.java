@@ -14,6 +14,7 @@ public interface AppUserRoleService {
     List<AppUser> getListAppUser();
     AppUser getAppUser(String username);
     AppRole getAppRoleById( Long id);
+    boolean findUser(String username);
 
 
 

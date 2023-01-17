@@ -11,6 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -43,6 +44,7 @@ public class SecurityConfig {
 //
 //     }
 //
+
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authenticationProvider= new DaoAuthenticationProvider();
@@ -55,7 +57,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity,AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return httpSecurity
                 .csrf().disable()
-                .addFilter(new JwtAuthenticationFilter( authenticationManager( authenticationConfiguration ))  )
+                .addFilter(new JwtAuthenticationFilter( authenticationProvider() )  )
                 .addFilterBefore( new JwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class )
                 .sessionManagement().sessionCreationPolicy( SessionCreationPolicy.STATELESS )
                 .and()
